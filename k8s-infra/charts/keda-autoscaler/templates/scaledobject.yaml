@@ -1,0 +1,13 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: {{ include "app.fullname" . }}-scaledobject
+spec:
+  scaleTargetRef:
+    name: {{ include "app.fullname" . }}
+  minReplicaCount: {{ .Values.autoscaling.minReplicas }}
+  maxReplicaCount: {{ .Values.autoscaling.maxReplicas }}
+  triggers:
+    - type: {{ .Values.keda.trigger.type }}
+      metadata:
+        {{- toYaml .Values.keda.trigger.metadata | nindent 8 }}
