@@ -63,6 +63,41 @@ Before starting, ensure the following:
 ```bash
 git clone https://github.com/your-org/k8s-infra.git
 cd k8s-infra
-'''markdown
+```
+
 2️⃣ Bootstrap Argo CD with Parent Application
 This parent app manages both KEDA and your autoscaler app:
+```bash
+kubectl apply -f argocd/parent-app.yaml
+```
+
+✅ This will automatically:
+
+Deploy KEDA into the keda namespace via Helm
+
+Deploy your custom autoscaling application to the autoscaler namespace
+
+3️⃣ Customize Your Helm Values
+Edit the file charts/keda-autoscaler/values.yaml to provide your app config:
+
+image:
+  repository: your-dockerhub-user/your-app
+  tag: latest
+
+resources:
+  requests:
+    cpu: "250m"
+    memory: "256Mi"
+  limits:
+    cpu: "500m"
+    memory: "512Mi"
+
+keda:
+  trigger:
+    type: kafka
+    metadata:
+      bootstrapServers: my-kafka.kafka.svc:9092
+      topic: my-topic
+      consumerGroup: my-group
+      lagThreshold: "10"
+
