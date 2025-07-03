@@ -65,7 +65,7 @@ git clone https://github.com/your-org/k8s-infra.git
 cd k8s-infra
 ```
 
-2️⃣ Bootstrap Argo CD with Parent Application
+## 2️⃣ Bootstrap Argo CD with Parent Application
 This parent app manages both KEDA and your autoscaler app:
 ```bash
 kubectl apply -f argocd/parent-app.yaml
@@ -77,7 +77,7 @@ Deploy KEDA into the keda namespace via Helm
 
 Deploy your custom autoscaling application to the autoscaler namespace
 
-3️⃣ Customize Your Helm Values
+## 3️⃣ Customize Your Helm Values
 Edit the file charts/keda-autoscaler/values.yaml to provide your app config:
 ```yaml
 
@@ -102,7 +102,7 @@ keda:
       consumerGroup: my-group
       lagThreshold: "10"
 ```
-4️⃣ (Optional) Apply Kyverno Policies
+## 4️⃣ (Optional) Apply Kyverno Policies
 To validate security and enforce best practices:
 
 ```bash
@@ -112,16 +112,41 @@ kubectl apply -f kyverno-policies/
 
 Kyverno policies include:
 
-Requiring resource requests and limits on pods
+Kyverno policies include:
 
-Restricting usage of the default service account
+  ✅ Requiring resource requests and limits on pods
 
-🔍 Verifying the Setup
+  ✅ Restricting usage of the default service account
 
-Task	Command
-View Argo CD apps	kubectl get applications -n argocd
-Check KEDA deployment	kubectl get pods -n keda
-View your app pods	kubectl get pods -n autoscaler
-View HPA created by KEDA	kubectl get hpa -n autoscaler
-View KEDA CRDs	kubectl get scaledobject
+| Task                     | Command                              |
+| ------------------------ | ------------------------------------ |
+| View Argo CD apps        | `kubectl get applications -n argocd` |
+| Check KEDA deployment    | `kubectl get pods -n keda`           |
+| View your app pods       | `kubectl get pods -n autoscaler`     |
+| View HPA created by KEDA | `kubectl get hpa -n autoscaler`      |
+| View KEDA ScaledObjects  | `kubectl get scaledobject`           |
+
+## 🔄 Testing Autoscaling (Example: Kafka)
+
+  1. Send messages to the Kafka topic configured in your values.yaml.
+
+  2. KEDA will detect lag and trigger horizontal scaling.
+
+  3. Run:
+   ```bash
+        kubectl get hpa -n autoscaler -w
+   ```
+  You should see your deployment scale up/down based on Kafka metrics.
+
+## 🧠 How the App of Apps Pattern Works
+
+argocd/parent-app.yaml is the main entry point
+
+It tracks all child Argo CD apps inside argocd/, including:
+
+  keda-install.yaml — Installs KEDA via Helm
+
+  keda-autoscaler.yaml — Installs your Helm-based workload
+
+This ensures declarative, version-controlled, and repeatable deployment.
 
