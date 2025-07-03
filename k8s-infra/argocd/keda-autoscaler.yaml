@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: keda-autoscaler
+  namespace: argocd    # Namespace where Argo CD is installed
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/your-org/your-repo.git   # 🔁 Replace with your actual Git repo
+    targetRevision: HEAD
+    path: charts/keda-autoscaler                         # Path to your Helm chart
+    helm:
+      valueFiles:
+        - values.yaml                                    # Use your default values file
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: autoscaler                                # Namespace where app will be deployed
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
