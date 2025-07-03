@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: keda
+  namespace: argocd     # Argo CD's namespace
+spec:
+  project: default
+  source:
+    repoURL: https://kedacore.github.io/charts
+    chart: keda
+    targetRevision: 2.13.0   # 🔁 Replace with latest version if needed
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: keda          # KEDA will be installed in its own namespace
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true   # Automatically create the 'keda' namespace
+      - ApplyOutOfSyncOnly=true
