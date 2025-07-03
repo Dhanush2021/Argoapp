@@ -79,6 +79,7 @@ Deploy your custom autoscaling application to the autoscaler namespace
 
 3️⃣ Customize Your Helm Values
 Edit the file charts/keda-autoscaler/values.yaml to provide your app config:
+```yaml
 
 image:
   repository: your-dockerhub-user/your-app
@@ -100,4 +101,27 @@ keda:
       topic: my-topic
       consumerGroup: my-group
       lagThreshold: "10"
+```
+4️⃣ (Optional) Apply Kyverno Policies
+To validate security and enforce best practices:
+
+```bash
+kubectl apply -f kyverno-policies/
+
+```
+
+Kyverno policies include:
+
+Requiring resource requests and limits on pods
+
+Restricting usage of the default service account
+
+🔍 Verifying the Setup
+
+Task	Command
+View Argo CD apps	kubectl get applications -n argocd
+Check KEDA deployment	kubectl get pods -n keda
+View your app pods	kubectl get pods -n autoscaler
+View HPA created by KEDA	kubectl get hpa -n autoscaler
+View KEDA CRDs	kubectl get scaledobject
 
