@@ -11,27 +11,30 @@ This repository provides a complete GitOps-based Kubernetes setup using:
 
 ## 📁 Project Structure
 
-k8s-infra/
-├── argocd/ # Argo CD Applications (App of Apps structure)
-│ ├── parent-app.yaml # Parent Argo CD app to manage the whole stack
-│ ├── keda-install.yaml # Installs KEDA via Helm chart
-│ └── keda-autoscaler.yaml # Deploys your autoscaled app via Helm chart
-│
-├── charts/ # Your custom Helm chart for the application
-│ └── keda-autoscaler/
-│ ├── Chart.yaml
-│ ├── values.yaml
-│ └── templates/
-│ ├── deployment.yaml
-│ ├── service.yaml
-│ └── scaledobject.yaml
-│
-├── kyverno-policies/ # Kyverno ClusterPolicies
-│ ├── validate-resource-requests-limits.yaml
-│ └── restrict-serviceaccount-access.yaml
-│
-└── README.md # Documentation (this file)
+## 📁 Project Structure
 
+```
+k8s-infra/
+├── argocd/                          # Argo CD Applications (App of Apps structure)
+│   ├── parent-app.yaml              # Parent Argo CD app to manage the whole stack
+│   ├── keda-install.yaml            # Installs KEDA via Helm chart
+│   └── keda-autoscaler.yaml         # Deploys your autoscaled app via Helm chart
+│
+├── charts/                          # Your custom Helm chart for the application
+│   └── keda-autoscaler/
+│       ├── Chart.yaml
+│       ├── values.yaml
+│       └── templates/
+│           ├── deployment.yaml
+│           ├── service.yaml
+│           └── scaledobject.yaml
+│
+├── kyverno-policies/                # Kyverno ClusterPolicies
+│   ├── validate-resource-requests-limits.yaml
+│   └── restrict-serviceaccount-access.yaml
+│
+└── README.md                        # Documentation (this file)
+```
 
 ---
 
