@@ -63,3 +63,6 @@ Before starting, ensure the following:
 ```bash
 git clone https://github.com/your-org/k8s-infra.git
 cd k8s-infra
+'''markdown
+2️⃣ Bootstrap Argo CD with Parent Application
+This parent app manages both KEDA and your autoscaler app:
