@@ -73,9 +73,9 @@ kubectl apply -f argocd/parent-app.yaml
 
 ✅ This will automatically:
 
-Deploy KEDA into the keda namespace via Helm
+   1. Deploy KEDA into the keda namespace via Helm
 
-Deploy your custom autoscaling application to the autoscaler namespace
+   2. Deploy your custom autoscaling application to the autoscaler namespace
 
 ## 3️⃣ Customize Your Helm Values
 Edit the file charts/keda-autoscaler/values.yaml to provide your app config:
@@ -112,8 +112,6 @@ kubectl apply -f kyverno-policies/
 
 Kyverno policies include:
 
-Kyverno policies include:
-
   ✅ Requiring resource requests and limits on pods
 
   ✅ Restricting usage of the default service account
@@ -140,13 +138,13 @@ Kyverno policies include:
 
 ## 🧠 How the App of Apps Pattern Works
 
-argocd/parent-app.yaml is the main entry point
+1. argocd/parent-app.yaml is the main entry point
 
-It tracks all child Argo CD apps inside argocd/, including:
+2. It tracks all child Argo CD apps inside argocd/, including:
 
-  keda-install.yaml — Installs KEDA via Helm
+   ✅ keda-install.yaml — Installs KEDA via Helm
 
-  keda-autoscaler.yaml — Installs your Helm-based workload
+   ✅ keda-autoscaler.yaml — Installs your Helm-based workload
 
 This ensures declarative, version-controlled, and repeatable deployment.
 
