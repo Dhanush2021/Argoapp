@@ -1,15 +1,16 @@
-🚀 Kubernetes GitOps Setup with Argo CD, KEDA, Helm, and Kyverno
+# 🚀 Kubernetes GitOps Setup with Argo CD, KEDA, Helm, and Kyverno
+
 This repository provides a complete GitOps-based Kubernetes setup using:
 
-Argo CD for continuous delivery
+- [Argo CD](https://argo-cd.readthedocs.io/) for continuous delivery  
+- [Helm](https://helm.sh/) for application packaging  
+- [KEDA](https://keda.sh/) for event-driven autoscaling  
+- [Kyverno](https://kyverno.io/) for policy enforcement  
 
-Helm for application packaging
+---
 
-KEDA for event-driven autoscaling
+## 📁 Project Structure
 
-Kyverno for policy enforcement
-
-📁 Project Structure
 k8s-infra/
 ├── argocd/ # Argo CD Applications (App of Apps structure)
 │ ├── parent-app.yaml # Parent Argo CD app to manage the whole stack
@@ -31,33 +32,35 @@ k8s-infra/
 │
 └── README.md # Documentation (this file)
 
-🎯 Objectives
-🔧 Install and manage KEDA via Helm using Argo CD
 
-🚀 Deploy an application that autoscales based on external metrics (e.g., Kafka)
+---
 
-🔐 Enforce best practices using Kyverno policies
+## 🎯 Objectives
 
-⚙️ Manage all of this via GitOps using Argo CD and this repository
+- 🔧 Install and manage [KEDA](https://keda.sh/) via Helm using Argo CD  
+- 🚀 Deploy an application that autoscales based on external metrics (e.g., Kafka)  
+- 🔐 Enforce best practices using [Kyverno](https://kyverno.io/) policies  
+- ⚙️ Manage all of this via GitOps using Argo CD and this repository  
 
-🛠️ Prerequisites
+---
+
+## 🛠️ Prerequisites
+
 Before starting, ensure the following:
 
-A working Kubernetes cluster (GKE, EKS, AKS, or Minikube/KIND)
+- A working Kubernetes cluster (GKE, EKS, AKS, or Minikube/KIND)  
+- Argo CD is installed in the cluster  
+- `kubectl` is configured to talk to your cluster  
+- (Optional) `helm` CLI for local testing or dry-run  
+- (Optional but recommended) [Kyverno](https://kyverno.io/docs/installation/) installed  
 
-Argo CD is installed in the cluster
+---
 
-kubectl is configured to talk to your cluster
+## 🚀 Setup Instructions
 
-(Optional) helm CLI for local testing or dry-run
+### 1️⃣ Clone the Repository
 
-(Optional but recommended) Kyverno installed
-
-🚀 Setup Instructions
-1️⃣ Clone the Repository
-bash
-Copy
-Edit
+```bash
 git clone https://github.com/your-org/k8s-infra.git
 cd k8s-infra
 2️⃣ Bootstrap Argo CD with Parent Application
@@ -99,56 +102,3 @@ keda:
       topic: my-topic
       consumerGroup: my-group
       lagThreshold: "10"
-4️⃣ (Optional) Apply Kyverno Policies
-To validate security and enforce best practices:
-
-bash
-Copy
-Edit
-kubectl apply -f kyverno-policies/
-Kyverno policies include:
-
-Requiring resource requests and limits on pods
-
-Restricting usage of the default service account
-
-🔍 Verifying the Setup
-Task	Command
-View Argo CD apps	kubectl get applications -n argocd
-Check KEDA deployment	kubectl get pods -n keda
-View your app pods	kubectl get pods -n autoscaler
-View HPA created by KEDA	kubectl get hpa -n autoscaler
-View KEDA CRDs	kubectl get scaledobject
-
-🔄 Testing Autoscaling (Example: Kafka)
-Send messages to the Kafka topic configured in your values.yaml.
-
-KEDA will detect lag and trigger horizontal scaling.
-
-Run:
-
-bash
-Copy
-Edit
-kubectl get hpa -n autoscaler -w
-You should see your deployment scale up/down based on Kafka metrics.
-
-🧠 How the App of Apps Pattern Works
-argocd/parent-app.yaml is the main entry point
-
-It tracks all child Argo CD apps inside argocd/, including:
-
-keda-install.yaml — Installs KEDA via Helm
-
-keda-autoscaler.yaml — Installs your Helm-based workload
-
-This ensures declarative, version-controlled, and repeatable deployment.
-
-📚 Resources
-KEDA Documentation
-
-Helm Charts Guide
-
-Argo CD Docs
-
-Kyverno Policy Library
