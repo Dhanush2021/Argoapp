@@ -66,7 +66,7 @@ cd k8s-infra
 ### 2️⃣ Bootstrap Argo CD with Parent Application
 This parent app manages both KEDA and your autoscaler app:
 
-bash
+''' bash
 Copy
 Edit
 kubectl apply -f argocd/parent-app.yaml
