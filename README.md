@@ -60,10 +60,10 @@ Before starting, ensure the following:
 
 ### 1️⃣ Clone the Repository
 
-```bash
+bash
 git clone https://github.com/your-org/k8s-infra.git
 cd k8s-infra
-2️⃣ Bootstrap Argo CD with Parent Application
+### 2️⃣ Bootstrap Argo CD with Parent Application
 This parent app manages both KEDA and your autoscaler app:
 
 bash
@@ -76,7 +76,7 @@ Deploy KEDA into the keda namespace via Helm
 
 Deploy your custom autoscaling application to the autoscaler namespace
 
-3️⃣ Customize Your Helm Values
+### 3️⃣ Customize Your Helm Values
 Edit the file charts/keda-autoscaler/values.yaml to provide your app config:
 
 yaml
